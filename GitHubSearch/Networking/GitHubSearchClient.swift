@@ -23,7 +23,8 @@ class GitHubSearchClient {
     let url = URL(string: "users?q=\(query)&page=\(page)", relativeTo: baseURL)!
     let task = session.dataTask(with: url) { data, response, error in
       guard let response = response as? HTTPURLResponse,
-            response.statusCode == 200 else {
+            response.statusCode == 200,
+            error == nil else {
         completion(nil, error)
         return
       }

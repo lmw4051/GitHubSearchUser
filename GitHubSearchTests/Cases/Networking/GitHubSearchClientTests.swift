@@ -81,6 +81,36 @@ class GitHubSearchClientTests: XCTestCase {
     XCTAssertNil(receivedUsers)
     XCTAssertNil(receivedError)
   }
+  
+  func test_getUsers_givenError_callsCompletionWithError() throws {
+    // given
+    let response = HTTPURLResponse(url: getUsersURL,
+                                   statusCode: 200,
+                                   httpVersion: nil,
+                                   headerFields: nil)
+    let expectedError = NSError(domain: "com.GitHubSearchClient",
+                                code: 42)
+    
+    // when
+    var calledCompletion = false
+    var receivedUsers: [User]? = nil
+    var receivedError: Error? = nil
+    
+    let mockTask = sut.getUsers(with: "a", page: 1) { users, error in
+      calledCompletion = true
+      receivedUsers = users
+      receivedError = error as NSError?
+    } as! MockURLSessionDataTask
+    
+    mockTask.completionHandler(nil, response, expectedError)
+    
+    // then
+    XCTAssertTrue(calledCompletion)
+    XCTAssertNil(receivedUsers)
+    
+    let actualError = try XCTUnwrap(receivedError as NSError?)
+    XCTAssertEqual(actualError, expectedError)
+  }
 }
 
 class MockURLSession: URLSession {
