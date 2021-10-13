@@ -9,26 +9,29 @@
 import XCTest
 
 class GitHubSearchClientTests: XCTestCase {
+  var baseURL: URL!
+  var session: URLSession!
   var sut: GitHubSearchClient!
   
-  func test_init_sets_baseURL() {
-    // given
-    let baseURL = URL(string: "https://api.github.com/search/")!
-    let session = URLSession.shared
-    
-    // when
+  override func setUp() {
+    super.setUp()
+    baseURL = URL(string: "https://api.github.com/search/")!
+    session = URLSession.shared
     sut = GitHubSearchClient(baseURL: baseURL, session: session)
-    
-    // then
+  }
+  
+  override func tearDown() {
+    baseURL = nil
+    session = nil
+    sut = nil
+    super.tearDown()
+  }
+  
+  func test_init_sets_baseURL() {
     XCTAssertEqual(sut.baseURL, baseURL)
   }
   
-  func test_init_sets_session() {
-    // given
-    let baseURL = URL(string: "https://api.github.com/search/")!
-    let session = URLSession.shared
-    
-    // when
+  func test_init_sets_session() {    
     sut = GitHubSearchClient(baseURL: baseURL, session: session)
     XCTAssertEqual(sut.session, session)
   }
