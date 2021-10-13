@@ -46,6 +46,14 @@ class GitHubSearchClientTests: XCTestCase {
     // then
     XCTAssertEqual(mockTask.url, getUsersURL)
   }
+  
+  func test_getDogs_callsResumeOnTask() {
+    // when
+    let mockTask = sut.getUsers(with: "a", page: 1) { _, _ in } as! MockURLSessionDataTask
+    
+    // then
+    XCTAssertTrue(mockTask.calledResume)
+  }
 }
 
 class MockURLSession: URLSession {

@@ -21,8 +21,10 @@ class GitHubSearchClient {
                 page: Int,
                 completion: @escaping ([UserInfo]?, Error?) -> Void) -> URLSessionDataTask {
     let url = URL(string: "users?q=\(query)&page=\(page)", relativeTo: baseURL)!
-    return session.dataTask(with: url) { _, _, _ in
+    let task = session.dataTask(with: url) { data, response, error in
       
     }
+    task.resume()
+    return task
   }
 }
