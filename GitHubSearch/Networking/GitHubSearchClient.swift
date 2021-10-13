@@ -31,8 +31,13 @@ class GitHubSearchClient {
       }
       
       let decoder = JSONDecoder()
-      let searchResult = try! decoder.decode(SearchResult.self, from: data)
-      completion(searchResult.items, nil)
+      
+      do {
+        let searchResult = try decoder.decode(SearchResult.self, from: data)
+        completion(searchResult.items, nil)
+      } catch {
+        completion(nil, error)
+      }
     }
     task.resume()
     return task
