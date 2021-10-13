@@ -27,6 +27,15 @@ class MainViewControllerTests: XCTestCase {
   }
   
   // MARK: - Given
+  func givenUsers(count: Int = 3) -> [User] {
+    return (1 ... count).map { i in
+      let user = User(login: "login_\(i)",
+                      score: Double(i),
+                      avatar_url: "http://example.com/\(i)")
+      return user
+    }
+  }
+  
   func givenMockNetworkClient() {
     mockNetworkClient = MockGitHubSearchService()
     sut.networkClient = mockNetworkClient
@@ -44,7 +53,7 @@ class MainViewControllerTests: XCTestCase {
     sut.loadUserData()
     
     // then
-    XCTAssertEqual(sut.dataTask, mockNetworkClient.getSearchResultDataTask)
+    XCTAssertEqual(sut.dataTask, mockNetworkClient.getUserDataTask)
   }
   
   func test_loadUserData_ifAlreadyLoaded_doesntCallAgain() {
@@ -56,6 +65,20 @@ class MainViewControllerTests: XCTestCase {
     sut.loadUserData()
     
     // then
-    XCTAssertEqual(mockNetworkClient.getSearchResultCallCount, 1)
+    XCTAssertEqual(mockNetworkClient.getUserCallCount, 1)
+  }
+  
+  func test_loadUserData_completionNilsDataTask() {
+    // given
+    givenMockNetworkClient()
+    let users = givenUsers()
+    
+    // when
+    sut.loadUserData()
+    
+    mockNetworkClient.getUserCompletion(users, nil)
+    
+    // then
+    XCTAssertNil(sut.dataTask)
   }
 }

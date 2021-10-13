@@ -10,7 +10,7 @@ import Foundation
 protocol GitHubSearchService {
   func getUsers(with query: String,
                 page: Int,
-                completion: @escaping (SearchResult?, Error?) -> Void) -> URLSessionDataTask
+                completion: @escaping ([User]?, Error?) -> Void) -> URLSessionDataTask
 }
 
 class GitHubSearchClient {
@@ -33,7 +33,7 @@ class GitHubSearchClient {
   
   func getUsers(with query: String,
                 page: Int,
-                completion: @escaping (SearchResult?, Error?) -> Void) -> URLSessionDataTask {
+                completion: @escaping ([User]?, Error?) -> Void) -> URLSessionDataTask {
     let url = URL(string: "users?q=\(query)&page=\(page)", relativeTo: baseURL)!
     
     let task = session.dataTask(with: url) { [weak self] data, response, error in
@@ -50,7 +50,7 @@ class GitHubSearchClient {
       
       do {
         let searchResult = try decoder.decode(SearchResult.self, from: data)
-        self.dispatchResult(models: searchResult, completion: completion)        
+        self.dispatchResult(models: searchResult.items, completion: completion)        
       } catch {
         self.dispatchResult(error: error, completion: completion)
       }

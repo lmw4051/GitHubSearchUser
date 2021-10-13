@@ -9,13 +9,13 @@
 import Foundation
 
 class MockGitHubSearchService: GitHubSearchService {
-  var getSearchResultCallCount = 0
-  var getSearchResultDataTask = URLSessionDataTask()
-  var getSearchResultCompletion: ((SearchResult?, Error?) -> Void)!
+  var getUserCallCount = 0
+  var getUserDataTask = URLSessionDataTask()
+  var getUserCompletion: (([User]?, Error?) -> Void)!
   
-  func getUsers(with query: String, page: Int, completion: @escaping (SearchResult?, Error?) -> Void) -> URLSessionDataTask {
-    getSearchResultCallCount += 1
-    getSearchResultCompletion = completion
-    return getSearchResultDataTask
+  func getUsers(with query: String, page: Int, completion: @escaping ([User]?, Error?) -> Void) -> URLSessionDataTask {
+    getUserCallCount += 1
+    getUserCompletion = completion
+    return getUserDataTask
   }
 }

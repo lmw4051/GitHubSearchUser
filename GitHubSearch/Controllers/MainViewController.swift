@@ -20,7 +20,7 @@ class MainViewController: UIViewController {
   func loadUserData() {
     guard dataTask == nil else { return }
     dataTask = networkClient.getUsers(with: "a", page: 1) { searchResult, error in
-      
+      self.dataTask = nil
     }
   }
 }
