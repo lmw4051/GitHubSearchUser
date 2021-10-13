@@ -8,6 +8,9 @@
 import UIKit
 
 class MainViewController: UIViewController {
+  // MARK: - Instance Properties
+  var networkClient = GitHubSearchClient.shared
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .red
