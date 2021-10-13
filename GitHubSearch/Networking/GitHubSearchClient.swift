@@ -31,14 +31,7 @@ class GitHubSearchClient {
             response.statusCode == 200,
             error == nil,
             let data = data else {
-        
-        guard let responseQueue = self.responseQueue else {
-          completion(nil, error)
-          return
-        }
-        responseQueue.async {
-          completion(nil, error)
-        }
+        self.dispatchResult(error: error, completion: completion)
         return
       }
       
@@ -46,12 +39,26 @@ class GitHubSearchClient {
       
       do {
         let searchResult = try decoder.decode(SearchResult.self, from: data)
-        completion(searchResult.items, nil)
+        self.dispatchResult(models: searchResult.items, completion: completion)        
       } catch {
-        completion(nil, error)
+        self.dispatchResult(error: error, completion: completion)
       }
     }
     task.resume()
     return task
+  }
+  
+  private func dispatchResult<T>(
+    models: T? = nil,
+    error: Error? = nil,
+    completion: @escaping (T?, Error?) -> Void) {
+    
+    guard let responseQueue = self.responseQueue else {
+      completion(models, error)
+      return
+    }
+    responseQueue.async {
+      completion(models, error)
+    }
   }
 }

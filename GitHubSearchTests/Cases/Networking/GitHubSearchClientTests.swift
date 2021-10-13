@@ -56,6 +56,38 @@ class GitHubSearchClientTests: XCTestCase {
     return (calledCompletion, receivedUsers, receivedError)
   }
   
+  func verifyGetUsersDispatchedToMain(
+    data: Data? = nil,
+    statusCode: Int = 200,
+    error: Error? = nil,
+    line: UInt = #line) {
+    
+    mockSession.givenDispatchQueue()
+    sut = GitHubSearchClient(baseURL: baseURL,
+                             session: mockSession,
+                             responseQueue: .main)
+    
+    let expectation = self.expectation(description: "Completion wasn't called")
+    
+    // when
+    var thread: Thread!
+    let mockTask = sut.getUsers(with: "a", page: 1) { users, error in
+      thread = Thread.current
+      expectation.fulfill()
+    } as! MockURLSessionDataTask
+    
+    let response = HTTPURLResponse(url: getUsersURL,
+                                   statusCode: statusCode,
+                                   httpVersion: nil,
+                                   headerFields: nil)
+    mockTask.completionHandler(data, response, error)
+    
+    // then
+    waitForExpectations(timeout: 0.2) { _ in
+      XCTAssertTrue(thread.isMainThread, line: line)
+    }
+  }
+  
   func test_init_sets_baseURL() {
     XCTAssertEqual(sut.baseURL, baseURL)
   }
@@ -159,60 +191,31 @@ class GitHubSearchClientTests: XCTestCase {
   }
   
   func test_getUsers_givenHTTPStatusError_dispatchesToResponseQueue() {
-    // given
-    mockSession.givenDispatchQueue()
-    sut = GitHubSearchClient(baseURL: baseURL,
-                             session: mockSession,
-                             responseQueue: .main)
-    
-    let expectation = self.expectation(description: "Completion wasn't called")
-    
-    // when
-    var thread: Thread!
-    let mockTask = sut.getUsers(with: "a", page: 1) { users, error in
-      thread = Thread.current
-      expectation.fulfill()
-    } as! MockURLSessionDataTask
-    
-    let response = HTTPURLResponse(url: getUsersURL,
-                                   statusCode: 500,
-                                   httpVersion: nil,
-                                   headerFields: nil)
-    mockTask.completionHandler(nil, response, nil)
-    
-    // then
-    waitForExpectations(timeout: 0.2) { _ in
-      XCTAssertTrue(thread.isMainThread)
-    }
+    verifyGetUsersDispatchedToMain(statusCode: 500)
   }
   
   func test_getUsers_givenError_dispatchesToResponseQueue() {
     // given
-    mockSession.givenDispatchQueue()
-    sut = GitHubSearchClient(baseURL: baseURL,
-                             session: mockSession,
-                             responseQueue: .main)
-    
-    let expectation = self.expectation(description: "Completion wasn't called")
-    
-    // when
-    var thread: Thread!
-    let mockTask = sut.getUsers(with: "a", page: 1) { users, error in
-      thread = Thread.current
-      expectation.fulfill()
-    } as! MockURLSessionDataTask
-    
-    let response = HTTPURLResponse(url: getUsersURL,
-                                   statusCode: 200,
-                                   httpVersion: nil,
-                                   headerFields: nil)
     let error = NSError(domain: "com.GitHubSearchTests", code: 42)
-    mockTask.completionHandler(nil, response, error)
     
     // then
-    waitForExpectations(timeout: 0.2) { _ in
-      XCTAssertTrue(thread.isMainThread)
-    }
+    verifyGetUsersDispatchedToMain(error: error)
+  }
+  
+  func test_getUsers_givenGoodResponse_dispatchesToResponseQueue() throws {
+    // given
+    let data = try Data.fromJSON(fileName: "GET_Users_ValidResponse")
+    
+    // then
+    verifyGetUsersDispatchedToMain(data: data)
+  }
+  
+  func test_getUsers_givenInvalidResponse_dispatchesToResponseQueue() throws {
+    // given
+    let data = try Data.fromJSON(fileName: "GET_MissingValues_Response")
+    
+    // then
+    verifyGetUsersDispatchedToMain(data: data)
   }
 }
 
