@@ -24,10 +24,15 @@ class GitHubSearchClient {
     let task = session.dataTask(with: url) { data, response, error in
       guard let response = response as? HTTPURLResponse,
             response.statusCode == 200,
-            error == nil else {
+            error == nil,
+            let data = data else {
         completion(nil, error)
         return
       }
+      
+      let decoder = JSONDecoder()
+      let searchResult = try! decoder.decode(SearchResult.self, from: data)
+      completion(searchResult.items, nil)
     }
     task.resume()
     return task

@@ -104,6 +104,21 @@ class GitHubSearchClientTests: XCTestCase {
     let actualError = try XCTUnwrap(result.error as NSError?)
     XCTAssertEqual(actualError, expectedError)
   }
+  
+  func test_getUsers_givenValidJSON_callsCompletionWithUsers() throws {
+    // given
+    let data = try Data.fromJSON(fileName: "GET_Users_ValidResponse")
+    let decoder = JSONDecoder()
+    let searchResult = try decoder.decode(SearchResult.self, from: data)
+    
+    // when
+    let result = whenGetUsers(data: data)
+    
+    // then
+    XCTAssertTrue(result.calledCompletion)
+    XCTAssertEqual(result.users, searchResult.items)
+    XCTAssertNil(result.error)
+  }
 }
 
 class MockURLSession: URLSession {

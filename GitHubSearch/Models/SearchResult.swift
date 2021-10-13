@@ -11,7 +11,7 @@ struct SearchResult: Decodable {
   var items: [User]
 }
 
-struct User: Decodable {
+struct User: Decodable, Equatable {
   let login: String
   let score: Double
   let avatar_url: String

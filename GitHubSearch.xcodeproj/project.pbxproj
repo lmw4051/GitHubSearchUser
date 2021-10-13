@@ -16,6 +16,9 @@
 		542247F627170BBE006DAE0A /* GitHubSearchClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542247F527170BBE006DAE0A /* GitHubSearchClientTests.swift */; };
 		542247FB27170C11006DAE0A /* GitHubSearchClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542247FA27170C11006DAE0A /* GitHubSearchClient.swift */; };
 		5422482627171BB2006DAE0A /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5422482527171BB2006DAE0A /* SearchResult.swift */; };
+		54224834271729A1006DAE0A /* GET_Users_ValidResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 54224832271729A1006DAE0A /* GET_Users_ValidResponse.json */; };
+		54224835271729A1006DAE0A /* GET_Users_MissingValuesResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 54224833271729A1006DAE0A /* GET_Users_MissingValuesResponse.json */; };
+		5422483D27172BB7006DAE0A /* Data+JSONFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5422483C27172BB7006DAE0A /* Data+JSONFile.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +45,9 @@
 		542247F527170BBE006DAE0A /* GitHubSearchClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubSearchClientTests.swift; sourceTree = "<group>"; };
 		542247FA27170C11006DAE0A /* GitHubSearchClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubSearchClient.swift; sourceTree = "<group>"; };
 		5422482527171BB2006DAE0A /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
+		54224832271729A1006DAE0A /* GET_Users_ValidResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = GET_Users_ValidResponse.json; sourceTree = SOURCE_ROOT; };
+		54224833271729A1006DAE0A /* GET_Users_MissingValuesResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = GET_Users_MissingValuesResponse.json; sourceTree = SOURCE_ROOT; };
+		5422483C27172BB7006DAE0A /* Data+JSONFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+JSONFile.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +114,8 @@
 			isa = PBXGroup;
 			children = (
 				542247F127170B7D006DAE0A /* Cases */,
+				5422482B2717288A006DAE0A /* Data */,
+				5422483A27172B96006DAE0A /* Test Types */,
 				542247E927170B5E006DAE0A /* Info.plist */,
 			);
 			path = GitHubSearchTests;
@@ -143,6 +151,31 @@
 				5422482527171BB2006DAE0A /* SearchResult.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		5422482B2717288A006DAE0A /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				54224833271729A1006DAE0A /* GET_Users_MissingValuesResponse.json */,
+				54224832271729A1006DAE0A /* GET_Users_ValidResponse.json */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		5422483A27172B96006DAE0A /* Test Types */ = {
+			isa = PBXGroup;
+			children = (
+				5422483B27172B9D006DAE0A /* Extensions */,
+			);
+			path = "Test Types";
+			sourceTree = "<group>";
+		};
+		5422483B27172B9D006DAE0A /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				5422483C27172BB7006DAE0A /* Data+JSONFile.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -236,6 +269,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54224834271729A1006DAE0A /* GET_Users_ValidResponse.json in Resources */,
+				54224835271729A1006DAE0A /* GET_Users_MissingValuesResponse.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,6 +294,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				542247F627170BBE006DAE0A /* GitHubSearchClientTests.swift in Sources */,
+				5422483D27172BB7006DAE0A /* Data+JSONFile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
