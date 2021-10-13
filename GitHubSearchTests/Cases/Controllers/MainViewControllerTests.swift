@@ -50,7 +50,7 @@ class MainViewControllerTests: XCTestCase {
     givenMockNetworkClient()
     
     // when
-    sut.loadUserData()
+    sut.loadUserData(searchText: "a", pageNumber: 1)
     
     // then
     XCTAssertEqual(sut.dataTask, mockNetworkClient.getUserDataTask)
@@ -61,8 +61,8 @@ class MainViewControllerTests: XCTestCase {
     givenMockNetworkClient()
     
     // when
-    sut.loadUserData()
-    sut.loadUserData()
+    sut.loadUserData(searchText: "a", pageNumber: 1)
+    sut.loadUserData(searchText: "a", pageNumber: 1)
     
     // then
     XCTAssertEqual(mockNetworkClient.getUserCallCount, 1)
@@ -74,7 +74,7 @@ class MainViewControllerTests: XCTestCase {
     let users = givenUsers()
     
     // when
-    sut.loadUserData()
+    sut.loadUserData(searchText: "a", pageNumber: 1)
     
     mockNetworkClient.getUserCompletion(users, nil)
     
