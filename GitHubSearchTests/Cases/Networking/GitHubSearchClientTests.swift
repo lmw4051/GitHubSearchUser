@@ -54,6 +54,33 @@ class GitHubSearchClientTests: XCTestCase {
     // then
     XCTAssertTrue(mockTask.calledResume)
   }
+  
+  func test_getUsers_givenResponseStatusCode500_callsCompletion() {
+    // given
+    let getUsersURL = URL(string: "users?q=a&page=1", relativeTo: baseURL)!
+    let response = HTTPURLResponse(url: getUsersURL,
+                                   statusCode: 500,
+                                   httpVersion: nil,
+                                   headerFields: nil)
+    
+    // when
+    var calledCompletion = false
+    var receivedUsers: [User]? = nil
+    var receivedError: Error? = nil
+    
+    let mockTask = sut.getUsers(with: "a", page: 1) { users, error in
+      calledCompletion = true
+      receivedUsers = users
+      receivedError = error
+    } as! MockURLSessionDataTask
+    
+    mockTask.completionHandler(nil, response, nil)
+    
+    // then
+    XCTAssertTrue(calledCompletion)
+    XCTAssertNil(receivedUsers)
+    XCTAssertNil(receivedError)
+  }
 }
 
 class MockURLSession: URLSession {

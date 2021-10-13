@@ -8,10 +8,10 @@
 import Foundation
 
 struct SearchResult: Decodable {
-  var items: [UserInfo]
+  var items: [User]
 }
 
-struct UserInfo: Decodable {
+struct User: Decodable {
   let login: String
   let score: Double
   let avatar_url: String
