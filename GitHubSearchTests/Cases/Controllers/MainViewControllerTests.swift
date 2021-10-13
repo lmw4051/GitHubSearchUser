@@ -24,6 +24,12 @@ class MainViewControllerTests: XCTestCase {
   }
   
   func test_networkClient_setToGitHubSearchClient() {
-    XCTAssertTrue(sut.networkClient === GitHubSearchClient.shared)
+    XCTAssertTrue((sut.networkClient as? GitHubSearchClient) === GitHubSearchClient.shared)
+  }
+  
+  func test_loadUserData_setsRequest() {
+    // given
+    let mockNetworkClient = MockGitHubSearchService()
+    sut.networkClient = mockNetworkClient
   }
 }

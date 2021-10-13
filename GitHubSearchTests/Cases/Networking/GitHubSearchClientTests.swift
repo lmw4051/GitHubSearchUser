@@ -98,7 +98,7 @@ class GitHubSearchClientTests: XCTestCase {
     
     // then
     _ = service.getUsers(with: "a", page: 1) { _, _ in }
-  }
+  }    
   
   func test_shared_setsBaseURL() {
     // given

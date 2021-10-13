@@ -20,6 +20,7 @@
 		54224835271729A1006DAE0A /* GET_MissingValues_Response.json in Resources */ = {isa = PBXBuildFile; fileRef = 54224833271729A1006DAE0A /* GET_MissingValues_Response.json */; };
 		5422483D27172BB7006DAE0A /* Data+JSONFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5422483C27172BB7006DAE0A /* Data+JSONFile.swift */; };
 		5422484727173E71006DAE0A /* MainViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5422484627173E71006DAE0A /* MainViewControllerTests.swift */; };
+		5422486827175609006DAE0A /* MockGitHubSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5422486727175609006DAE0A /* MockGitHubSearchService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,7 @@
 		54224833271729A1006DAE0A /* GET_MissingValues_Response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = GET_MissingValues_Response.json; sourceTree = SOURCE_ROOT; };
 		5422483C27172BB7006DAE0A /* Data+JSONFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+JSONFile.swift"; sourceTree = "<group>"; };
 		5422484627173E71006DAE0A /* MainViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewControllerTests.swift; sourceTree = "<group>"; };
+		5422486727175609006DAE0A /* MockGitHubSearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockGitHubSearchService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +170,7 @@
 		5422483A27172B96006DAE0A /* Test Types */ = {
 			isa = PBXGroup;
 			children = (
+				54224866271755EA006DAE0A /* Mocks */,
 				5422483B27172B9D006DAE0A /* Extensions */,
 			);
 			path = "Test Types";
@@ -187,6 +190,14 @@
 				5422484627173E71006DAE0A /* MainViewControllerTests.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		54224866271755EA006DAE0A /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				5422486727175609006DAE0A /* MockGitHubSearchService.swift */,
+			);
+			path = Mocks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -304,6 +315,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5422486827175609006DAE0A /* MockGitHubSearchService.swift in Sources */,
 				542247F627170BBE006DAE0A /* GitHubSearchClientTests.swift in Sources */,
 				5422483D27172BB7006DAE0A /* Data+JSONFile.swift in Sources */,
 				5422484727173E71006DAE0A /* MainViewControllerTests.swift in Sources */,
