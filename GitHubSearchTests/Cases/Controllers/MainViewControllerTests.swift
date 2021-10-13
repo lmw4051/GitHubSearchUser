@@ -11,7 +11,9 @@ import XCTest
 class MainViewControllerTests: XCTestCase {
   // MARK: - Instance Properties - Tests
   var sut: MainViewController!
+  var mockNetworkClient: MockGitHubSearchService!
   
+  // MARK: - Test Lifecycle
   override func setUp() {
     super.setUp()
     sut = MainViewController()
@@ -19,8 +21,15 @@ class MainViewControllerTests: XCTestCase {
   }
   
   override func tearDown() {
+    mockNetworkClient = nil
     sut = nil
     super.tearDown()
+  }
+  
+  // MARK: - Given
+  func givenMockNetworkClient() {
+    mockNetworkClient = MockGitHubSearchService()
+    sut.networkClient = mockNetworkClient
   }
   
   func test_networkClient_setToGitHubSearchClient() {
@@ -29,14 +38,18 @@ class MainViewControllerTests: XCTestCase {
   
   func test_loadUserData_setsRequest() {
     // given
-    let mockNetworkClient = MockGitHubSearchService()
-    sut.networkClient = mockNetworkClient
+    givenMockNetworkClient()
+    
+    // when
+    sut.loadUserData()
+    
+    // then
+    XCTAssertEqual(sut.dataTask, mockNetworkClient.getSearchResultDataTask)
   }
   
   func test_loadUserData_ifAlreadyLoaded_doesntCallAgain() {
     // given
-    let mockNetworkClient = MockGitHubSearchService()
-    sut.networkClient = mockNetworkClient
+    givenMockNetworkClient()
     
     // when
     sut.loadUserData()
