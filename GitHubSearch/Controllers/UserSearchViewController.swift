@@ -7,7 +7,7 @@
 
 import UIKit
 
-class UserSearchViewController: UIViewController {
+class UserSearchViewController: UICollectionViewController {
   // MARK: - Instance Properties
   var networkClient: GitHubSearchService = GitHubSearchClient.shared
   var dataTask: URLSessionDataTask?
@@ -20,12 +20,28 @@ class UserSearchViewController: UIViewController {
     super.viewDidLoad()
     view.backgroundColor = .white
     setupSearchBar()
+    configureCollectionView()
+  }
+  
+  init() {
+    super.init(collectionViewLayout: UICollectionViewFlowLayout())
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
   
   // MARK: - Helper Methods
   private func setupSearchBar() {
     navigationItem.searchController = self.searchController
     searchController.searchBar.delegate = self
+  }
+  
+  private func configureCollectionView() {
+    navigationItem.title = "Search User"
+    navigationController?.navigationBar.prefersLargeTitles = true
+    
+    collectionView.backgroundColor = .white
   }
   
   func loadUserData(searchText: String, pageNumber: Int = 1) {
