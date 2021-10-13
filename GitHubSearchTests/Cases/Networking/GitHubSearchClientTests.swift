@@ -13,6 +13,10 @@ class GitHubSearchClientTests: XCTestCase {
   var mockSession: MockURLSession!
   var sut: GitHubSearchClient!
   
+  var getUsersURL: URL {
+    return URL(string: "users?q=a&page=1", relativeTo: baseURL)!
+  }
+  
   override func setUp() {
     super.setUp()
     baseURL = URL(string: "https://api.github.com/search/")!
@@ -37,9 +41,6 @@ class GitHubSearchClientTests: XCTestCase {
   }
   
   func test_getUsers_callsExpectedURL() {
-    // given
-    let getUsersURL = URL(string: "users?q=a&page=1", relativeTo: baseURL)!
-    
     // when
     let mockTask = sut.getUsers(with: "a", page: 1) { _, _ in } as! MockURLSessionDataTask
     
@@ -57,7 +58,6 @@ class GitHubSearchClientTests: XCTestCase {
   
   func test_getUsers_givenResponseStatusCode500_callsCompletion() {
     // given
-    let getUsersURL = URL(string: "users?q=a&page=1", relativeTo: baseURL)!
     let response = HTTPURLResponse(url: getUsersURL,
                                    statusCode: 500,
                                    httpVersion: nil,
