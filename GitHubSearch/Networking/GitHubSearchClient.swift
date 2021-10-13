@@ -8,5 +8,9 @@
 import Foundation
 
 class GitHubSearchClient {
+  let baseURL: URL
   
+  init(baseURL: URL) {
+    self.baseURL = baseURL
+  }
 }
