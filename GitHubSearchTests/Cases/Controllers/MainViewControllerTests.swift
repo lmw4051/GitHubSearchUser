@@ -10,13 +10,13 @@ import XCTest
 
 class MainViewControllerTests: XCTestCase {
   // MARK: - Instance Properties - Tests
-  var sut: MainViewController!
+  var sut: UserSearchViewController!
   var mockNetworkClient: MockGitHubSearchService!
   
   // MARK: - Test Lifecycle
   override func setUp() {
     super.setUp()
-    sut = MainViewController()
+    sut = UserSearchViewController()
     sut.loadViewIfNeeded()
   }
   

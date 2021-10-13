@@ -12,7 +12,7 @@
 		542247C927170790006DAE0A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 542247C727170790006DAE0A /* Main.storyboard */; };
 		542247CB27170798006DAE0A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 542247CA27170798006DAE0A /* Assets.xcassets */; };
 		542247CE27170798006DAE0A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 542247CC27170798006DAE0A /* LaunchScreen.storyboard */; };
-		542247DF271708F5006DAE0A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542247DE271708F5006DAE0A /* MainViewController.swift */; };
+		542247DF271708F5006DAE0A /* UserSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542247DE271708F5006DAE0A /* UserSearchViewController.swift */; };
 		542247F627170BBE006DAE0A /* GitHubSearchClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542247F527170BBE006DAE0A /* GitHubSearchClientTests.swift */; };
 		542247FB27170C11006DAE0A /* GitHubSearchClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542247FA27170C11006DAE0A /* GitHubSearchClient.swift */; };
 		5422482627171BB2006DAE0A /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5422482527171BB2006DAE0A /* SearchResult.swift */; };
@@ -41,7 +41,7 @@
 		542247CA27170798006DAE0A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		542247CD27170798006DAE0A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		542247CF27170798006DAE0A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		542247DE271708F5006DAE0A /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		542247DE271708F5006DAE0A /* UserSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchViewController.swift; sourceTree = "<group>"; };
 		542247E527170B5E006DAE0A /* GitHubSearchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GitHubSearchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		542247E927170B5E006DAE0A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		542247F527170BBE006DAE0A /* GitHubSearchClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubSearchClientTests.swift; sourceTree = "<group>"; };
@@ -109,7 +109,7 @@
 		542247DB271708D1006DAE0A /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				542247DE271708F5006DAE0A /* MainViewController.swift */,
+				542247DE271708F5006DAE0A /* UserSearchViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -303,7 +303,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				542247DF271708F5006DAE0A /* MainViewController.swift in Sources */,
+				542247DF271708F5006DAE0A /* UserSearchViewController.swift in Sources */,
 				542247C227170790006DAE0A /* AppDelegate.swift in Sources */,
 				5422482627171BB2006DAE0A /* SearchResult.swift in Sources */,
 				542247C427170790006DAE0A /* SceneDelegate.swift in Sources */,
