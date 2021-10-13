@@ -88,6 +88,30 @@ class GitHubSearchClientTests: XCTestCase {
     }
   }
   
+  func test_shared_setsBaseURL() {
+    // given
+    let baseURL = URL(string: "https://api.github.com/search/")!
+    
+    // then
+    XCTAssertEqual(GitHubSearchClient.shared.baseURL, baseURL)
+  }
+  
+  func test_shared_setsSession() {
+    // given
+    let session = URLSession.shared
+    
+    // then
+    XCTAssertEqual(GitHubSearchClient.shared.session, session)
+  }
+  
+  func test_shared_setsResponseQueue() {
+    // given
+    let responseQueue = DispatchQueue.main
+    
+    // then
+    XCTAssertEqual(GitHubSearchClient.shared.responseQueue, responseQueue)
+  }
+  
   func test_init_sets_baseURL() {
     XCTAssertEqual(sut.baseURL, baseURL)
   }

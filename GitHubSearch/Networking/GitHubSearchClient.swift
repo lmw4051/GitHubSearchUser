@@ -12,6 +12,11 @@ class GitHubSearchClient {
   let session: URLSession
   let responseQueue: DispatchQueue?
   
+  static let shared = GitHubSearchClient(
+    baseURL: URL(string: "https://api.github.com/search/")!,
+    session: .shared,
+    responseQueue: .main)
+  
   init(baseURL: URL,
        session: URLSession,
        responseQueue: DispatchQueue?) {
