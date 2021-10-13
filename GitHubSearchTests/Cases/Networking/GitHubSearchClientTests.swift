@@ -21,7 +21,9 @@ class GitHubSearchClientTests: XCTestCase {
     super.setUp()
     baseURL = URL(string: "https://api.github.com/search/")!
     mockSession = MockURLSession()
-    sut = GitHubSearchClient(baseURL: baseURL, session: mockSession)
+    sut = GitHubSearchClient(baseURL: baseURL,
+                             session: mockSession,
+                             responseQueue: nil)
   }
   
   override func tearDown() {
@@ -59,8 +61,20 @@ class GitHubSearchClientTests: XCTestCase {
   }
   
   func test_init_sets_session() {
-    sut = GitHubSearchClient(baseURL: baseURL, session: mockSession)
     XCTAssertEqual(sut.session, mockSession)
+  }
+  
+  func test_init_sets_responseQueue() {
+    // given
+    let responseQueue = DispatchQueue.main
+    
+    // when
+    sut = GitHubSearchClient(baseURL: baseURL,
+                             session: mockSession,
+                             responseQueue: responseQueue)
+    
+    // then
+    XCTAssertEqual(sut.responseQueue, responseQueue)
   }
   
   func test_getUsers_callsExpectedURL() {
@@ -143,12 +157,76 @@ class GitHubSearchClientTests: XCTestCase {
     XCTAssertEqual(actualError.domain, expectedError.domain)
     XCTAssertEqual(actualError.code, expectedError.code)
   }
+  
+  func test_getUsers_givenHTTPStatusError_dispatchesToResponseQueue() {
+    // given
+    mockSession.givenDispatchQueue()
+    sut = GitHubSearchClient(baseURL: baseURL,
+                             session: mockSession,
+                             responseQueue: .main)
+    
+    let expectation = self.expectation(description: "Completion wasn't called")
+    
+    // when
+    var thread: Thread!
+    let mockTask = sut.getUsers(with: "a", page: 1) { users, error in
+      thread = Thread.current
+      expectation.fulfill()
+    } as! MockURLSessionDataTask
+    
+    let response = HTTPURLResponse(url: getUsersURL,
+                                   statusCode: 500,
+                                   httpVersion: nil,
+                                   headerFields: nil)
+    mockTask.completionHandler(nil, response, nil)
+    
+    // then
+    waitForExpectations(timeout: 0.2) { _ in
+      XCTAssertTrue(thread.isMainThread)
+    }
+  }
+  
+  func test_getUsers_givenError_dispatchesToResponseQueue() {
+    // given
+    mockSession.givenDispatchQueue()
+    sut = GitHubSearchClient(baseURL: baseURL,
+                             session: mockSession,
+                             responseQueue: .main)
+    
+    let expectation = self.expectation(description: "Completion wasn't called")
+    
+    // when
+    var thread: Thread!
+    let mockTask = sut.getUsers(with: "a", page: 1) { users, error in
+      thread = Thread.current
+      expectation.fulfill()
+    } as! MockURLSessionDataTask
+    
+    let response = HTTPURLResponse(url: getUsersURL,
+                                   statusCode: 200,
+                                   httpVersion: nil,
+                                   headerFields: nil)
+    let error = NSError(domain: "com.GitHubSearchTests", code: 42)
+    mockTask.completionHandler(nil, response, error)
+    
+    // then
+    waitForExpectations(timeout: 0.2) { _ in
+      XCTAssertTrue(thread.isMainThread)
+    }
+  }
 }
 
 class MockURLSession: URLSession {
+  var queue: DispatchQueue? = nil
+  
+  func givenDispatchQueue() {
+    queue = DispatchQueue(label: "com.GitHubSearchTests.MockSession")
+  }
+  
   override func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
     return MockURLSessionDataTask(completionHandler: completionHandler,
-                                  url: url)
+                                  url: url,
+                                  queue: queue)
   }
 }
 
@@ -157,8 +235,19 @@ class MockURLSessionDataTask: URLSessionDataTask {
   var url: URL
   
   init(completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void,
-       url: URL) {
-    self.completionHandler = completionHandler
+       url: URL,
+       queue: DispatchQueue?) {
+    
+    if let queue = queue {
+      self.completionHandler = { data, response, error in
+        queue.async {
+          completionHandler(data, response, error)
+        }
+      }
+    } else {
+      self.completionHandler = completionHandler
+    }
+    
     self.url = url
     super.init()
   }
