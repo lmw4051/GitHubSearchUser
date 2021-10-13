@@ -14,11 +14,22 @@ class GitHubSearchClientTests: XCTestCase {
   func test_init_sets_baseURL() {
     // given
     let baseURL = URL(string: "https://api.github.com/search/")!
+    let session = URLSession.shared
     
     // when
-    sut = GitHubSearchClient(baseURL: baseURL)
+    sut = GitHubSearchClient(baseURL: baseURL, session: session)
     
     // then
     XCTAssertEqual(sut.baseURL, baseURL)
+  }
+  
+  func test_init_sets_session() {
+    // given
+    let baseURL = URL(string: "https://api.github.com/search/")!
+    let session = URLSession.shared
+    
+    // when
+    sut = GitHubSearchClient(baseURL: baseURL, session: session)
+    XCTAssertEqual(sut.session, session)
   }
 }

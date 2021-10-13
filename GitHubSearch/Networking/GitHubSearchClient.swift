@@ -9,8 +9,11 @@ import Foundation
 
 class GitHubSearchClient {
   let baseURL: URL
+  let session: URLSession
   
-  init(baseURL: URL) {
+  init(baseURL: URL,
+       session: URLSession) {
     self.baseURL = baseURL
+    self.session = session
   }
 }
