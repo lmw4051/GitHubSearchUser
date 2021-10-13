@@ -15,6 +15,7 @@
 		542247DF271708F5006DAE0A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542247DE271708F5006DAE0A /* MainViewController.swift */; };
 		542247F627170BBE006DAE0A /* GitHubSearchClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542247F527170BBE006DAE0A /* GitHubSearchClientTests.swift */; };
 		542247FB27170C11006DAE0A /* GitHubSearchClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542247FA27170C11006DAE0A /* GitHubSearchClient.swift */; };
+		5422482627171BB2006DAE0A /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5422482527171BB2006DAE0A /* SearchResult.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		542247E927170B5E006DAE0A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		542247F527170BBE006DAE0A /* GitHubSearchClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubSearchClientTests.swift; sourceTree = "<group>"; };
 		542247FA27170C11006DAE0A /* GitHubSearchClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubSearchClient.swift; sourceTree = "<group>"; };
+		5422482527171BB2006DAE0A /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 			children = (
 				542247C127170790006DAE0A /* AppDelegate.swift */,
 				542247C327170790006DAE0A /* SceneDelegate.swift */,
+				5422482427171BA9006DAE0A /* Models */,
 				542247F927170BFE006DAE0A /* Networking */,
 				542247DB271708D1006DAE0A /* Controllers */,
 				542247C727170790006DAE0A /* Main.storyboard */,
@@ -132,6 +135,14 @@
 				542247FA27170C11006DAE0A /* GitHubSearchClient.swift */,
 			);
 			path = Networking;
+			sourceTree = "<group>";
+		};
+		5422482427171BA9006DAE0A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5422482527171BB2006DAE0A /* SearchResult.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -237,6 +248,7 @@
 			files = (
 				542247DF271708F5006DAE0A /* MainViewController.swift in Sources */,
 				542247C227170790006DAE0A /* AppDelegate.swift in Sources */,
+				5422482627171BB2006DAE0A /* SearchResult.swift in Sources */,
 				542247C427170790006DAE0A /* SceneDelegate.swift in Sources */,
 				542247FB27170C11006DAE0A /* GitHubSearchClient.swift in Sources */,
 			);
