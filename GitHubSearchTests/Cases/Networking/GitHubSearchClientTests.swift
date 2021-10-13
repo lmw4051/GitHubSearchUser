@@ -88,6 +88,18 @@ class GitHubSearchClientTests: XCTestCase {
     }
   }
   
+  func test_conformsTo_GitHubSearchService() {
+    XCTAssertTrue((sut as AnyObject) is GitHubSearchService)
+  }
+  
+  func test_GitHubSearchService_declaresGetUsers() {
+    // given
+    let service = sut as GitHubSearchService
+    
+    // then
+    _ = service.getUsers(with: "a", page: 1) { _, _ in }
+  }
+  
   func test_shared_setsBaseURL() {
     // given
     let baseURL = URL(string: "https://api.github.com/search/")!

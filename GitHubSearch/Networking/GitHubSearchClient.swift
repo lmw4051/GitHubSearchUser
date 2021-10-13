@@ -7,6 +7,12 @@
 
 import Foundation
 
+protocol GitHubSearchService {
+  func getUsers(with query: String,
+                page: Int,
+                completion: @escaping ([User]?, Error?) -> Void) -> URLSessionDataTask
+}
+
 class GitHubSearchClient {
   let baseURL: URL
   let session: URLSession
@@ -67,3 +73,5 @@ class GitHubSearchClient {
     }
   }
 }
+
+extension GitHubSearchClient: GitHubSearchService { }
