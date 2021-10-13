@@ -10,6 +10,7 @@ import UIKit
 class MainViewController: UIViewController {
   // MARK: - Instance Properties
   var networkClient: GitHubSearchService = GitHubSearchClient.shared
+  var dataTask: URLSessionDataTask?
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -17,6 +18,9 @@ class MainViewController: UIViewController {
   }
   
   func loadUserData() {
-    
+    guard dataTask == nil else { return }
+    dataTask = networkClient.getUsers(with: "a", page: 1) { searchResult, error in
+      
+    }
   }
 }

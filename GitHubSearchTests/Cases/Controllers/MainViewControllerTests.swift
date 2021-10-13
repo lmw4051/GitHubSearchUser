@@ -32,4 +32,17 @@ class MainViewControllerTests: XCTestCase {
     let mockNetworkClient = MockGitHubSearchService()
     sut.networkClient = mockNetworkClient
   }
+  
+  func test_loadUserData_ifAlreadyLoaded_doesntCallAgain() {
+    // given
+    let mockNetworkClient = MockGitHubSearchService()
+    sut.networkClient = mockNetworkClient
+    
+    // when
+    sut.loadUserData()
+    sut.loadUserData()
+    
+    // then
+    XCTAssertEqual(mockNetworkClient.getSearchResultCallCount, 1)
+  }
 }
