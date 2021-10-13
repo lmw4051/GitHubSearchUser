@@ -46,9 +46,9 @@ class GitHubSearchClientTests: XCTestCase {
     var receivedUsers: [User]? = nil
     var receivedError: Error? = nil
     
-    let mockTask = sut.getUsers(with: "a", page: 1) { users, error in
+    let mockTask = sut.getUsers(with: "a", page: 1) { searchResult, error in
       calledCompletion = true
-      receivedUsers = users
+      receivedUsers = searchResult?.items
       receivedError = error as NSError?
     } as! MockURLSessionDataTask
     
