@@ -8,13 +8,23 @@
 import UIKit
 
 class SearchResultCell: UICollectionViewCell {
-  var user: User! {
+  var viewModel: DataCellViewModel! {
     didSet {
-      profileImageView.image = UIImage(named: "image_placeholder")
-      loginLabel.text = user.login
-      scoreLabel.text = String(user.score)
+      loginLabel.text = viewModel.login
+      scoreLabel.text = String(viewModel.score)
+      
+      if let url = viewModel?.avatar_url {
+        
+      }
     }
   }
+//  var user: User! {
+//    didSet {
+//      profileImageView.image = UIImage(named: "image_placeholder")
+//      loginLabel.text = user.login
+//      scoreLabel.text = String(user.score)
+//    }
+//  }
   
   let profileImageView: UIImageView = {
     let iv = UIImageView()

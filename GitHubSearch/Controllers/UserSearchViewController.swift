@@ -12,12 +12,12 @@ class UserSearchViewController: UICollectionViewController {
   private let searchController = UISearchController(searchResultsController: nil)  
   var viewModel = UserSearchViewModel()
   
+  private let cellId = "CellId"
+  
   // MARK: - View Life Cycle
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .white
-    
-    collectionView.dataSource = viewModel
     
     setupSearchBar()
     configureCollectionView()
@@ -30,6 +30,10 @@ class UserSearchViewController: UICollectionViewController {
       if isFetchedData {
         self?.refreshCollectionView()
       }
+    }
+    
+    viewModel.updateData = { [weak self] () in
+      self?.refreshCollectionView()
     }
   }
   
@@ -58,8 +62,19 @@ class UserSearchViewController: UICollectionViewController {
     navigationController?.navigationBar.prefersLargeTitles = true
     
     collectionView.backgroundColor = .white
-    collectionView.register(SearchResultCell.self, forCellWithReuseIdentifier: "CellId")
-  }    
+    collectionView.register(SearchResultCell.self, forCellWithReuseIdentifier: cellId)
+  }
+  
+  // MARK: - UICollectionViewDataSource Methods
+  override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return viewModel.numberOfCells
+  }
+  
+  override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! SearchResultCell
+    cell.viewModel = viewModel.getCellViewModel(at: indexPath.row)
+    return cell
+  }
 }
 
 // MARK: - UISearchBarDelegate Methods
