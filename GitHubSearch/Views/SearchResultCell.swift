@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class SearchResultCell: UICollectionViewCell {
   var viewModel: DataCellViewModel! {
@@ -14,7 +15,7 @@ class SearchResultCell: UICollectionViewCell {
       scoreLabel.text = String(viewModel.score)
       
       if let url = viewModel?.avatar_url {
-        
+        profileImageView.sd_setImage(with: URL(string: url), placeholderImage: UIImage(named: "image_placeholder"))
       }
     }
   }
