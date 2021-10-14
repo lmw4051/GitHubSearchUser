@@ -34,7 +34,9 @@ class GitHubSearchClient {
   func getUsers(with query: String,
                 page: Int,
                 completion: @escaping ([User]?, HTTPURLResponse?, CustomError?) -> Void) -> URLSessionDataTask {
-    let url = URL(string: "users?q=\(query)&page=\(page)", relativeTo: baseURL)!
+    guard let url = URL(string: "users?q=\(query)&page=\(page)", relativeTo: baseURL) else {
+      return URLSessionDataTask()
+    }
     
     let task = session.dataTask(with: url) { [weak self] data, response, error in
       guard let self = self else { return }
