@@ -46,7 +46,7 @@ class GitHubSearchClientTests: XCTestCase {
     var receivedUsers: [User]? = nil
     var receivedError: Error? = nil
     
-    let mockTask = sut.getUsers(with: "a", page: 1) { users, error in
+    let mockTask = sut.getUsers(with: "a", page: 1) { users, response, error in
       calledCompletion = true
       receivedUsers = users
       receivedError = error as NSError?
@@ -71,7 +71,7 @@ class GitHubSearchClientTests: XCTestCase {
     
     // when
     var thread: Thread!
-    let mockTask = sut.getUsers(with: "a", page: 1) { users, error in
+    let mockTask = sut.getUsers(with: "a", page: 1) { users, response, error in
       thread = Thread.current
       expectation.fulfill()
     } as! MockURLSessionDataTask
@@ -97,7 +97,7 @@ class GitHubSearchClientTests: XCTestCase {
     let service = sut as GitHubSearchService
     
     // then
-    _ = service.getUsers(with: "a", page: 1) { _, _ in }
+    _ = service.getUsers(with: "a", page: 1) { _, _, _ in }
   }    
   
   func test_shared_setsBaseURL() {
@@ -147,7 +147,7 @@ class GitHubSearchClientTests: XCTestCase {
   
   func test_getUsers_callsExpectedURL() {
     // when
-    let mockTask = sut.getUsers(with: "a", page: 1) { _, _ in } as! MockURLSessionDataTask
+    let mockTask = sut.getUsers(with: "a", page: 1) { _, _, _ in } as! MockURLSessionDataTask
     
     // then
     XCTAssertEqual(mockTask.url, getUsersURL)
@@ -155,7 +155,7 @@ class GitHubSearchClientTests: XCTestCase {
   
   func test_getDogs_callsResumeOnTask() {
     // when
-    let mockTask = sut.getUsers(with: "a", page: 1) { _, _ in } as! MockURLSessionDataTask
+    let mockTask = sut.getUsers(with: "a", page: 1) { _, _, _ in } as! MockURLSessionDataTask
     
     // then
     XCTAssertTrue(mockTask.calledResume)

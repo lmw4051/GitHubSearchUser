@@ -11,9 +11,9 @@ import Foundation
 class MockGitHubSearchService: GitHubSearchService {
   var getUserCallCount = 0
   var getUserDataTask = URLSessionDataTask()
-  var getUserCompletion: (([User]?, Error?) -> Void)!
+  var getUserCompletion: (([User]?, HTTPURLResponse?, CustomError?) -> Void)!
   
-  func getUsers(with query: String, page: Int, completion: @escaping ([User]?, Error?) -> Void) -> URLSessionDataTask {
+  func getUsers(with query: String, page: Int, completion: @escaping ([User]?, HTTPURLResponse?, CustomError?) -> Void) -> URLSessionDataTask {
     getUserCallCount += 1
     getUserCompletion = completion
     return getUserDataTask
