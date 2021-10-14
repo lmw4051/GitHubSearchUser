@@ -10,7 +10,7 @@ import Foundation
 protocol GitHubSearchService {
   func getUsers(with query: String,
                 page: Int,
-                completion: @escaping ([User]?, Error?) -> Void) -> URLSessionDataTask
+                completion: @escaping ([User]?, HTTPURLResponse?, CustomError?) -> Void) -> URLSessionDataTask
 }
 
 class GitHubSearchClient {
@@ -33,16 +33,27 @@ class GitHubSearchClient {
   
   func getUsers(with query: String,
                 page: Int,
-                completion: @escaping ([User]?, Error?) -> Void) -> URLSessionDataTask {
+                completion: @escaping ([User]?, HTTPURLResponse?, CustomError?) -> Void) -> URLSessionDataTask {
     let url = URL(string: "users?q=\(query)&page=\(page)", relativeTo: baseURL)!
     
     let task = session.dataTask(with: url) { [weak self] data, response, error in
       guard let self = self else { return }
+      
+      guard error == nil else {
+        self.dispatchResult(error: CustomError.httpResponseError, completion: completion)
+        print("Client Error")
+        return
+      }
+      
       guard let response = response as? HTTPURLResponse,
-            response.statusCode == 200,
-            error == nil,
-            let data = data else {
-        self.dispatchResult(error: error, completion: completion)
+            (200...299).contains(response.statusCode) else {
+        print("Server Error")
+        self.dispatchResult(models: nil, response: nil, error: CustomError.httpServerError, completion: completion)
+        return
+      }
+                  
+      guard let data = data else {
+        self.dispatchResult(error: CustomError.dataError, completion: completion)
         return
       }
       
@@ -50,9 +61,9 @@ class GitHubSearchClient {
       
       do {
         let searchResult = try decoder.decode(SearchResult.self, from: data)
-        self.dispatchResult(models: searchResult.items, completion: completion)        
+        self.dispatchResult(models: searchResult.items, response: response, completion: completion)
       } catch {
-        self.dispatchResult(error: error, completion: completion)
+        self.dispatchResult(error: CustomError.jsonDecoingError, completion: completion)
       }
     }
     task.resume()
@@ -61,15 +72,16 @@ class GitHubSearchClient {
   
   private func dispatchResult<T>(
     models: T? = nil,
-    error: Error? = nil,
-    completion: @escaping (T?, Error?) -> Void) {
+    response: HTTPURLResponse? = nil,
+    error: CustomError? = nil,
+    completion: @escaping (T?, HTTPURLResponse?, CustomError?) -> Void) {
     
     guard let responseQueue = self.responseQueue else {
-      completion(models, error)
+      completion(models, response, error)
       return
     }
     responseQueue.async {
-      completion(models, error)
+      completion(models, response, error)
     }
   }
 }

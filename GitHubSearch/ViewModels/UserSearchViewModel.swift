@@ -29,6 +29,9 @@ class UserSearchViewModel {
   var isUserDataUpdated: Observable<Bool> = Observable(false)
   var isErrorOccured: Observable<CustomError?> = Observable(nil)
   
+  var isLoading: Bool = false
+  var searchStr: String?
+  
   var numberOfCells: Int {
     return cellViewModels.count
   }
@@ -41,8 +44,9 @@ class UserSearchViewModel {
   
   var updateData: (() -> ())?
   
-  private func clearUserData() {
+  func resetUserData() {
     cellViewModels.removeAll()
+    pageNumber = CommonSetting.startPageNumber
     isUserDataUpdated.value = true
   }
   
@@ -54,25 +58,30 @@ class UserSearchViewModel {
     return cellViewModels[index]
   }
   
-  func loadUserData(searchText: String, pageNumber: Int = 1) {
+  func loadUserData(searchText: String) {
     guard dataTask == nil else { return }
     
     if searchText.count <= 0 {
-      clearUserData()
+      resetUserData()
       return
     }
     
-    dataTask = networkClient.getUsers(with: searchText, page: pageNumber) { [weak self] users, error in
+    isLoading = true
+    searchStr = searchText
+    
+    dataTask = networkClient.getUsers(with: searchText, page: pageNumber) { [weak self] users, response, error in
       guard let self = self else { return }
       self.dataTask = nil
       
+      self.isLoading = false
+      
       if let error = error {
-        self.isErrorOccured.value = error as? CustomError
+        self.isErrorOccured.value = error
         return
       }
       
       if let allUsers = users, !allUsers.isEmpty {
-        if pageNumber != CommonSetting.startPageNumber {
+        if self.pageNumber != CommonSetting.startPageNumber {
           self.users.append(contentsOf: allUsers)
           self.processFetchedData(self.users)
         } else {
@@ -81,8 +90,34 @@ class UserSearchViewModel {
           self.pageNumber = CommonSetting.startPageNumber
         }
         self.isUserDataUpdated.value = true
+        self.parseHeader(response: response)
       } else {
         self.isErrorOccured.value = CustomError.noResultFoundError
+      }
+    }
+  }
+  
+  func parseHeader(response: HTTPURLResponse?) {
+    if let httpResponse = response {
+      if let linkHeader = httpResponse.allHeaderFields["Link"] as? String {
+        print("linkHeader:", linkHeader)
+        
+        let links = linkHeader.components(separatedBy: ",")
+        
+        var dictionary: [String: String] = [:]
+        links.forEach {
+          let components = $0.components(separatedBy:"; ")
+          let cleanPath = components[0].trimmingCharacters(in: CharacterSet(charactersIn: "<>"))
+          dictionary[components[1]] = cleanPath
+        }
+        
+        if let nextPagePath = dictionary["rel=\"next\""] {
+          print("nextPagePath: \(nextPagePath)")
+          if let nextPage = nextPagePath.components(separatedBy: "=").last {
+            print(nextPage)
+            self.pageNumber = Int(nextPage) ?? 0
+          }
+        }
       }
     }
   }

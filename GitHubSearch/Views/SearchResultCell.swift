@@ -19,13 +19,6 @@ class SearchResultCell: UICollectionViewCell {
       }
     }
   }
-//  var user: User! {
-//    didSet {
-//      profileImageView.image = UIImage(named: "image_placeholder")
-//      loginLabel.text = user.login
-//      scoreLabel.text = String(user.score)
-//    }
-//  }
   
   let profileImageView: UIImageView = {
     let iv = UIImageView()

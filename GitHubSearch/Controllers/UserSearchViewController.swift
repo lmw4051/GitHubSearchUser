@@ -73,6 +73,12 @@ class UserSearchViewController: UICollectionViewController {
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! SearchResultCell
     cell.viewModel = viewModel.getCellViewModel(at: indexPath.row)
+    
+    if indexPath.item == viewModel.numberOfCells - 1 {
+      if !viewModel.isLoading {
+        viewModel.loadUserData(searchText: viewModel.searchStr ?? "")
+      }
+    }
     return cell
   }
 }
@@ -80,7 +86,16 @@ class UserSearchViewController: UICollectionViewController {
 // MARK: - UISearchBarDelegate Methods
 extension UserSearchViewController: UISearchBarDelegate {
   func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    viewModel.resetUserData()
     viewModel.loadUserData(searchText: searchText)
+  }
+  
+  func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+    viewModel.isLoading = false
+  }
+  
+  func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {    
+    viewModel.isLoading = true
   }
 }
 
