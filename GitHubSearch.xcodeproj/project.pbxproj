@@ -23,6 +23,9 @@
 		5422486827175609006DAE0A /* MockGitHubSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5422486727175609006DAE0A /* MockGitHubSearchService.swift */; };
 		5422488E271795E0006DAE0A /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5422488D271795E0006DAE0A /* SearchResultCell.swift */; };
 		5422489527179871006DAE0A /* UIView+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5422489427179871006DAE0A /* UIView+Layout.swift */; };
+		5422489E2717A0AB006DAE0A /* UserSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5422489D2717A0AB006DAE0A /* UserSearchViewModel.swift */; };
+		542248A92717A4DC006DAE0A /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542248A82717A4DC006DAE0A /* Observable.swift */; };
+		542248AD2717A593006DAE0A /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542248AC2717A593006DAE0A /* Constant.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +59,9 @@
 		5422486727175609006DAE0A /* MockGitHubSearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockGitHubSearchService.swift; sourceTree = "<group>"; };
 		5422488D271795E0006DAE0A /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
 		5422489427179871006DAE0A /* UIView+Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Layout.swift"; sourceTree = "<group>"; };
+		5422489D2717A0AB006DAE0A /* UserSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchViewModel.swift; sourceTree = "<group>"; };
+		542248A82717A4DC006DAE0A /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
+		542248AC2717A593006DAE0A /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +105,7 @@
 			children = (
 				542247C127170790006DAE0A /* AppDelegate.swift */,
 				542247C327170790006DAE0A /* SceneDelegate.swift */,
+				5422489C2717A098006DAE0A /* ViewModels */,
 				5422489327179867006DAE0A /* Util */,
 				5422482427171BA9006DAE0A /* Models */,
 				542247F927170BFE006DAE0A /* Networking */,
@@ -218,8 +225,18 @@
 			isa = PBXGroup;
 			children = (
 				5422489427179871006DAE0A /* UIView+Layout.swift */,
+				542248A82717A4DC006DAE0A /* Observable.swift */,
+				542248AC2717A593006DAE0A /* Constant.swift */,
 			);
 			path = Util;
+			sourceTree = "<group>";
+		};
+		5422489C2717A098006DAE0A /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				5422489D2717A0AB006DAE0A /* UserSearchViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -326,10 +343,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				542247DF271708F5006DAE0A /* UserSearchViewController.swift in Sources */,
+				5422489E2717A0AB006DAE0A /* UserSearchViewModel.swift in Sources */,
 				542247C227170790006DAE0A /* AppDelegate.swift in Sources */,
 				5422482627171BB2006DAE0A /* SearchResult.swift in Sources */,
+				542248A92717A4DC006DAE0A /* Observable.swift in Sources */,
 				542247C427170790006DAE0A /* SceneDelegate.swift in Sources */,
 				5422488E271795E0006DAE0A /* SearchResultCell.swift in Sources */,
+				542248AD2717A593006DAE0A /* Constant.swift in Sources */,
 				5422489527179871006DAE0A /* UIView+Layout.swift in Sources */,
 				542247FB27170C11006DAE0A /* GitHubSearchClient.swift in Sources */,
 			);

@@ -8,20 +8,35 @@
 import UIKit
 
 class UserSearchViewController: UICollectionViewController {
-  // MARK: - Instance Properties
-  var networkClient: GitHubSearchService = GitHubSearchClient.shared
-  var dataTask: URLSessionDataTask?
-  var users = [User]()
-  
-  private let searchController = UISearchController(searchResultsController: nil)
-  private let cellId = "CellId"
+  // MARK: - Instance Properties  
+  private let searchController = UISearchController(searchResultsController: nil)  
+  var viewModel = UserSearchViewModel()
   
   // MARK: - View Life Cycle
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .white
+    
+    collectionView.dataSource = viewModel
+    
     setupSearchBar()
     configureCollectionView()
+    
+    initViewModelSetup()
+  }
+  
+  private func initViewModelSetup()  {
+    viewModel.isUserDataUpdated.bind { [weak self] isFetchedData in
+      if isFetchedData {
+        self?.refreshCollectionView()
+      }
+    }
+  }
+  
+  private func refreshCollectionView() {
+    DispatchQueue.main.async { [weak self] in
+      self?.collectionView.reloadData()
+    }
   }
   
   init() {
@@ -43,50 +58,14 @@ class UserSearchViewController: UICollectionViewController {
     navigationController?.navigationBar.prefersLargeTitles = true
     
     collectionView.backgroundColor = .white
-    collectionView.register(SearchResultCell.self, forCellWithReuseIdentifier: cellId)
-  }
-  
-  private func clearUserData() {
-    users.removeAll()
-    self.collectionView.performBatchUpdates(nil, completion: nil)
-  }
-  
-  func loadUserData(searchText: String, pageNumber: Int = 1) {
-    guard dataTask == nil else { return }
-    
-    if searchText.count <= 0 {
-      clearUserData()
-      return
-    }
-    
-    dataTask = networkClient.getUsers(with: searchText, page: pageNumber) { [weak self] users, error in
-      guard let self = self else { return }
-      self.dataTask = nil
-      
-      if let allUsers = users, !allUsers.isEmpty {
-        self.users.append(contentsOf: allUsers)
-        print("self.users: \(self.users)")
-        self.collectionView.performBatchUpdates(nil, completion: nil)
-      }
-    }
-  }
-  
-  // MARK: - UICollectionViewDataSource Methods
-  override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return users.count
-  }
-  
-  override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! SearchResultCell
-    cell.user = users[indexPath.item]
-    return cell
-  }
+    collectionView.register(SearchResultCell.self, forCellWithReuseIdentifier: "CellId")
+  }    
 }
 
 // MARK: - UISearchBarDelegate Methods
 extension UserSearchViewController: UISearchBarDelegate {
   func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-    loadUserData(searchText: searchText)
+    viewModel.loadUserData(searchText: searchText)
   }
 }
 
