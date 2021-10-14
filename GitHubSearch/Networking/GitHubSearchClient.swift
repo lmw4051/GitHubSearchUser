@@ -10,7 +10,7 @@ import Foundation
 protocol GitHubSearchService {
   func getUsers(with query: String,
                 page: Int,
-                completion: @escaping ([User]?, HTTPURLResponse?, CustomError?) -> Void) -> URLSessionDataTask
+                completion: @escaping ([User]?, HTTPURLResponse?, CustomError?) -> Void)
 }
 
 class GitHubSearchClient {
@@ -33,9 +33,9 @@ class GitHubSearchClient {
   
   func getUsers(with query: String,
                 page: Int,
-                completion: @escaping ([User]?, HTTPURLResponse?, CustomError?) -> Void) -> URLSessionDataTask {
+                completion: @escaping ([User]?, HTTPURLResponse?, CustomError?) -> Void) {
     guard let url = URL(string: "users?q=\(query)&page=\(page)", relativeTo: baseURL) else {
-      return URLSessionDataTask()
+      return
     }
     
     let task = session.dataTask(with: url) { [weak self] data, response, error in
@@ -69,7 +69,6 @@ class GitHubSearchClient {
       }
     }
     task.resume()
-    return task
   }
   
   private func dispatchResult<T>(

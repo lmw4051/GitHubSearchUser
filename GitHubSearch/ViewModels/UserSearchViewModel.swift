@@ -22,7 +22,6 @@ struct DataCellViewModel {
 
 class UserSearchViewModel {
   private var networkClient: GitHubSearchService = GitHubSearchClient.shared
-  private var dataTask: URLSessionDataTask?
   private var pageNumber = CommonSetting.startPageNumber
   private var users = [User]()
   
@@ -59,8 +58,6 @@ class UserSearchViewModel {
   }
   
   func loadUserData(searchText: String) {
-    guard dataTask == nil else { return }
-    
     if searchText.count <= 0 {
       resetUserData()
       return
@@ -69,9 +66,8 @@ class UserSearchViewModel {
     isLoading = true
     searchStr = searchText
     
-    dataTask = networkClient.getUsers(with: searchText, page: pageNumber) { [weak self] users, response, error in
+    networkClient.getUsers(with: searchText, page: pageNumber) { [weak self] users, response, error in
       guard let self = self else { return }
-      self.dataTask = nil
       
       self.isLoading = false
       
