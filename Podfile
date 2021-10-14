@@ -6,11 +6,5 @@ target 'GitHubSearch' do
   use_frameworks!
 
   # Pods for GitHubSearch
-  pod 'SDWebImage'
-
-  target 'GitHubSearchTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
+  pod 'SDWebImage'  
 end
