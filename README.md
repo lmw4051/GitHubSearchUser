@@ -9,6 +9,5 @@ Features
 6. Implementation of Codable feature.
 
 Design Pattern: MVVM
-Binding Method: Boxing
 
 Dont't forget to call pod install after cloning!
